@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
     <title>chat</title>
+    <style>
+      .sender{
+        text-align: -moz-left;
+        text-align: -webkit-left;
+      }
+      .reciever{
+        text-align: -moz-right;
+        text-align: -webkit-right;
+      }
+      input:focus-visible {
+    outline-offset: 0px;
+}
+    </style>
 </head>
 <body>
 
@@ -79,36 +92,85 @@
 
       
       <section>
-          <div class="container-fluid bg-grey">
+          <div class="container-fluid bg-grey p-2">
               <div class="row text-center">
-                  <div class="col-md-3 bg-">
+                  <div class="col-md-3 border border border-left">
                       <div class="container-fluid bg-light ">
                           <p class="p-3">messages</p>  
                       </div>
-                      <div class="row">
-                          <div class="col-md-12 border-bottom">
-                              <p class="text-left">User 1</p>
+                      <div class="row text-left float-left w-100 ">
+                        <ul class="messages mx-auto w-100 " id="messages" style="list-style-type: none;">
+                          <li class="border-bottom mt-2">
+                          <div class="col-md-12 bg-light p-2 rounded">
+                              <p class="text-left ">User 1</p>
                           </div>
-                          <div class="col-md-12 border-bottom">
-                            <p class="text-left">User 1</p>
-                        </div>
-                        <div class="col-md-12 border-bottom">
-                            <p class="text-left">User 1</p>
-                        </div>
+                        </li>
+                        <li class="border-bottom mt-2">
+                          <div class="col-md-12 bg-light p-2 rounded">
+                              <p class="text-left">User 2</p>
+                          </div>
+                        </li >
+                        <li class="border-bottom mt-2">
+                          <div class="col-md-12 bg-light p-2 rounded">
+                              <p class="text-left">User 3</p>
+                          </div>
+                        </li>
+                         
+                        
+
+                      </ul>
                       </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6 border border-left">
                       <div class="container-fluid bg-light rounded">
 
                           <p class="p-3">message box</p>
+                        
                       </div>
+
+                      <div class="row text-left float-left w-100">
+                        <ul class="messages mx-auto w-100" id="messages" style="list-style-type: none;">
+                          <li class="border-bottom w-100">
+                          <div class="col-md-12 sender">
+                              <p class="text-left bg-light text-dark p-2 rounded" style="width: fit-content;">User 1 message hii</p>
+                          </div>
+                        </li>
+                        <li class="border-bottom">
+                          <div class="col-md-12 reciever">
+                              <p class="text-left bg-primary p-2 rounded text-light" style="width: fit-content;">User 2 hello <small class="d-flex float-right ml-2"> time</small></p>
+                          </div>
+                        </li >
+                        <li class="border-bottom">
+                          <div class="col-md-12 sender">
+                              <p class="text-left bg-light p-2 rounded text-dark" style="width: fit-content;">User 1 where are you <small class="d-flex float-right ml-2">time</small></p>
+                          </div>
+                        </li >
+                      </ul>
+
+               <div class="bg-light w-100 row text-center ml-3 rounded p-2 ">
+                      <div class="col-md-8 text-center">
+                        <input class="w-100 p-2 border " placeholder="your message" type="text">
+                    </div>
+                    <div class="col-md-4 w-100">
+                      <button class="w-100 btn btn-primary">Send</button>
+                  </div>
+                </div>
+                      
+                      </div>
+                      
                 </div>
 
                   <div class="col-md-3">
                       <div class="container-fluid bg-light rounded">
 
                           <p class="p-3">adds</p>
+                         
+                      </div>
+                      <div class="container-fluid">
+                        <!-- <p class="border p-2 text-left rounded-pill">User name</p>
+                        <p class="border p-2 text-left rounded-pill">User mail</p>
+                        <p class="border p-2 text-left rounded-pill">Mobile no</p> -->
                       </div>
                 </div>
               </div>
