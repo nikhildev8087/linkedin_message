@@ -43,6 +43,13 @@ async function loginWithGoogle(){
       console.log(user);
       console.log(user.uid);
 
+      const loginUserMail = document.getElementById('loginUserMail');
+    loginUserMail.innerHTML = `Email: ${user.email}`; 
+
+    const loginUserId = document.getElementById('loginUserId');
+    loginUserId.innerHTML = `uid: ${user.uid}`; 
+
+
       showusers(user.uid);
       
       console.log(user.email);
@@ -77,8 +84,10 @@ async function loginWithGoogle(){
     console.log(data.username);
     console.log(data.userId);
 
+    
+
     const userlist = `<li class="border-bottom mt-2">
-    <div class="col-md-12 bg-light p-2 rounded ${uid === data.userId ? "hideusr": "showusr"}" id="${data.userId}" onclick="sendmsgtouser(this)">
+    <div class="col-md-12 bg-light p-2 rounded ${uid === data.userId ? "hideusr": "showusr"}" id="${data.userId}" onclick="sendmsgtouser(this)" >
         <p class="text-left ">${data.username}</p>
     </div>
   </li>`
@@ -100,6 +109,7 @@ async function loginWithGoogle(){
     const data = snapshot.val();
     const displayReciever = document.getElementById('displayReciever');
     displayReciever.innerHTML =  data.username;
+    
   });
 
     const timestamp = Date.now();
@@ -145,20 +155,32 @@ async function loginWithGoogle(){
 
 
 function sendmsgToDatabase(message, userid, timestamp, time){
-  db.ref("messages/" + userid + "/"+ timestamp).set({
-    userid:userid,
-    message:message,
-    timestamp:timestamp,
-    time:time,
-    
-  });
+  const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    if(user){
+      console.log(user.uid);
+
+      db.ref("messages/" +user.uid+"/"+ userid + "/"+ timestamp).set({
+        senderid:userid,
+        reiceverid:user.uid,
+        message:message,
+        timestamp:timestamp,
+        time:time,
+        
+      });
+
+    }
+  })
 }
 
 
 function retriveData(userid){
+  const unsubscribe = firebase.auth().onAuthStateChanged((user)=>{
+
+ 
+
   console.log(userid);
 
-  const fetchMessage = db.ref("messages/"+userid);
+  const fetchMessage = db.ref("messages/"+user.uid+"/"+userid);
   fetchMessage.on("child_added", function(snapshot){
     const messages = snapshot.val();
     console.log(messages);
@@ -178,6 +200,7 @@ function retriveData(userid){
 
 
     
+  })
 
   })
 
