@@ -87,8 +87,8 @@ async function loginWithGoogle(){
 
     
 
-    const userlist = `<li class="border-bottom mt-2">
-    <div class="col-md-12 bg-light p-2 rounded ${uid === data.userId ? "hideusr": "showusr"}" id="${data.userId}" onclick="sendmsgtouser(this)" >
+    const userlist = `<li class="border-bottom mt-2 " style="cursor:pointer">
+    <div class="col-md-12 bg-light p-2 users rounded ${uid === data.userId ? "hideusr": "showusr"}" id="${data.userId}" onclick="sendmsgtouser(this)" >
         <p class="text-left ">${data.username}</p>
     </div>
   </li>`
@@ -119,13 +119,14 @@ async function loginWithGoogle(){
     const d = new Date();
     let t = d.getTime();
     let hour = d.getHours();
-
-    if(hour>12){
+    let minutes = d.getMinutes();
+    // let set = "AM";
+    if(hour>12 ){
       hour-=12;
+      // set = "PM";
     }
 
     
-    let minutes = d.getMinutes();
     let time = hour+":"+minutes;
     console.log(time);
 
@@ -148,7 +149,7 @@ async function loginWithGoogle(){
       sendmsgToDatabase(message, userselected.id, timestamp,time);
       messageInput.value ="";
 
-      retriveData(userselected.id);
+      // retriveData(userselected.id);
 
     })
   }
@@ -183,12 +184,20 @@ function retriveData(userid){
 
   const fetchMessage = db.ref("messages/"+user.uid+"/"+userid);
   const fetchMessage2 = db.ref("messages/"+userid+"/"+user.uid);
-  fetchMessage2.on("child_added", function(snapshot){
+  fetchMessage2.on("value", function(snapshot){
+    snapshot.forEach((childSnapshot)=>{
+      const messages2 = childSnapshot.val();
+      
+  fetchMessage.on("value", function(snapshot){
+    snapshot.forEach((childSnapshot)=>{
 
-  const messages2 = snapshot.val();
-  fetchMessage.on("child_added", function(snapshot){
-    const messages = snapshot.val();
-    console.log(messages);
+    
+    const messages = childSnapshot.val();
+    console.log(messages2);
+    // const arr = {...messages, ...messages2};
+    // messages.merge(messages2);
+    // console.log(arr);
+
 
 
     const showmsg = `<li class="border-bottom">
@@ -199,7 +208,7 @@ function retriveData(userid){
   
   <li class="border-bottom">
     <div class="col-md-12  ${userid===messages2.reiceverid ? "sender": "reciever"}">
-        <p class="text-left bg-primary p-2 rounded text-light" style="width: fit-content;">${messages2.message} <small class="d-flex float-right ml-2 pt-2"> ${messages.time}</small></p>
+        <p class="text-left bg-light p-2 rounded text-dark" style="width: fit-content;">${messages2.message} <small class="d-flex float-right ml-2 pt-2"> ${messages.time}</small></p>
     </div>
   </li >`;
 
@@ -208,13 +217,14 @@ function retriveData(userid){
     addmsg.innerHTML +=showmsg;
 
     
+  });
+});
 
-
-  })
+  });
     
-  })
+  });
 
-  })
+  });
 
 }
 
