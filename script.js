@@ -32,7 +32,7 @@ async function loginWithGoogle(){
     console.log(result.additionalUserInfo.profile.name);
     console.log(result.additionalUserInfo.profile.email);
     console.log(result.additionalUserInfo.profile.picture);
-    window.location.href="http://localhost:5500/chat.html"
+    window.location.href="chat.html"
 
   })
 }
@@ -72,6 +72,7 @@ async function loginWithGoogle(){
   
   function logout(){
     firebase.auth().signOut();
+    window.location.href="index.html";
   }
 
 
@@ -181,13 +182,24 @@ function retriveData(userid){
   console.log(userid);
 
   const fetchMessage = db.ref("messages/"+user.uid+"/"+userid);
+  const fetchMessage2 = db.ref("messages/"+userid+"/"+user.uid);
+  fetchMessage2.on("child_added", function(snapshot){
+
+  const messages2 = snapshot.val();
   fetchMessage.on("child_added", function(snapshot){
     const messages = snapshot.val();
     console.log(messages);
 
+
     const showmsg = `<li class="border-bottom">
-    <div class="col-md-12 reciever">
+    <div class="col-md-12  ${userid===messages.reiceverid ? "sender": "reciever"}">
         <p class="text-left bg-primary p-2 rounded text-light" style="width: fit-content;">${messages.message} <small class="d-flex float-right ml-2 pt-2"> ${messages.time}</small></p>
+    </div>
+  </li >
+  
+  <li class="border-bottom">
+    <div class="col-md-12  ${userid===messages2.reiceverid ? "sender": "reciever"}">
+        <p class="text-left bg-primary p-2 rounded text-light" style="width: fit-content;">${messages2.message} <small class="d-flex float-right ml-2 pt-2"> ${messages.time}</small></p>
     </div>
   </li >`;
 
@@ -198,13 +210,34 @@ function retriveData(userid){
     
 
 
-
+  })
     
   })
 
   })
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
